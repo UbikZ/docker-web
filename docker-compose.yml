@@ -1,0 +1,35 @@
+data:
+  image: tianon/true
+  volumes:
+    - /var/www
+
+web:
+  build: nginx
+  links:
+    - apache:apache
+    - node:node
+  ports:
+    - "8080:80"
+  volumes_from:
+    - data:ro
+
+apache:
+  build: apache
+  links:
+    - mongo:mongo
+    - mysql:mysql
+  volumes_from:
+    - data
+
+node:
+  image: node:5.1.0
+  links:
+    - mongo:mongo
+    - mysql:mysql
+
+mysql:
+  image: mysql:5.6
+  env_file: env
+
+mongo:
+  image: mongo:3.1
