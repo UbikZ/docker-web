@@ -9,8 +9,8 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Nginx
-COPY config/nginx/generic /etc/nginx/sites-available/generic.conf
-COPY config/nginx/proxy_params /etc/nginx/proxy_params
+COPY config/generic /etc/nginx/sites-available/generic.conf
+COPY config/proxy_params /etc/nginx/proxy_params
 
 # Clean
 RUN rm -rf /tmp/* /var/tmp/*
