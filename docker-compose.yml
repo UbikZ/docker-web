@@ -5,9 +5,9 @@ data:
 
 web:
   build: nginx
-  #links:
-    #- apache:apache
-    #- node:node
+  links:
+    - apache:apache
+    - node:node
   ports:
     - "8080:80"
   volumes_from:
