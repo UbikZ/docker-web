@@ -14,6 +14,8 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Apache
+COPY config/000-default.conf /etc/apache2/sites-available/000-default
+COPY config/ports.conf /etc/apache2/ports.conf
 RUN a2enmod rewrite
 
 # Composer
@@ -22,6 +24,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --filename=composer --in
 # Clean
 RUN rm -rf /tmp/* /var/tmp/*
 
-EXPOSE 80
+EXPOSE 9080
 
-CMD ["service", "apache2", "start"]
+COPY scripts/entrypoint.sh /entrypoint.sh
+RUN chmod u+x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["apache2", "-D", "FOREGROUND"]
